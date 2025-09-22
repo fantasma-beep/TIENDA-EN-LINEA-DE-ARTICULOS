@@ -1,537 +1,522 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="es">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2113.65">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Tienda Online</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 
+      IMPORTANTE: Reemplaza 'YOUR_CLIENT_ID' con tu Client ID de PayPal.
+      Obtenlo desde tu panel de desarrollador de PayPal.
+    -->
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=MXN"></script>
+    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIk1pIFRpZW5kYSBQV0EiLAogICJzaG9ydF9uYW1lIjogIlRpZW5kYVBXQSIsCiAgImRlc2NyaXB0aW9uIjogIlVzYSBlc3RhIHRpZW5kYSBvbmxpbmUgY29tbyBBUFAiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL3BsYWNlaG9sZC5jby8xOTJ4MTkyLzAwMDAwMC9GRkZGRkY/dGV4dD1Mb2dvIiwKICAgICAgInNpemVzIjogIjE5MngxOTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9LAogICAgewogICAgICAic3JjIjogImh0dHBzOi8vcGxhY2Vob2xkLmNvLzUxMng1MTIvMDAwMDAwL0ZGRkZGRj90ZXh0PUxvZ28iLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0KICBdLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2ZmZmZmZiIsCiAgInRoZW1lX2NvbG9yIjogIiMwMDAwMDAiCn0=">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .product-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
 </head>
-<body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="es"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Mi Tienda Online&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!--<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>IMPORTANTE: Reemplaza 'YOUR_CLIENT_ID' con tu Client ID de PayPal.</p>
-<p class="p1"><span class="Apple-converted-space">      </span>Obtenlo desde tu panel de desarrollador de PayPal.</p>
-<p class="p1"><span class="Apple-converted-space">    </span>--&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&amp;currency=MXN"&gt;&lt;/script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIk1pIFRpZW5kYSBQV0EiLAogICJzaG9ydF9uYW1lIjogIlRpZW5kYVBXQSIsCiAgImRlc2NyaXB0aW9uIjogIlVzYSBlc3RhIHRpZW5kYSBvbmxpbmUgY29tbyBBUFAiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL3BsYWNlaG9sZC5jby8xOTJ4MTkyLzAwMDAwMC9GRkZGRkY/dGV4dD1Mb2dvIiwKICAgICAgInNpemVzIjogIjE5MngxOTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9LAogICAgewogICAgICAic3JjIjogImh0dHBzOi8vcGxhY2Vob2xkLmNvLzUxMng1MTIvMDAwMDAwL0ZGRkZGRj90ZXh0PUxvZ28iLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0KICBdLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2ZmZmZmZiIsCiAgInRoZW1lX2NvbG9yIjogIiMwMDAwMDAiCn0="&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>body { font-family: 'Inter', sans-serif; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.product-card {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.product-card:hover {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>transform: translateY(-5px);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body class="bg-gray-100 text-gray-800"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="toast-notification" class="hidden fixed top-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg z-50"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p id="toast-message"&gt;&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;header class="bg-white shadow-md sticky top-0 z-40"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;nav class="container mx-auto px-6 py-4 flex justify-between items-center"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;a href="#home" class="text-2xl font-bold text-gray-800"&gt;MiTienda&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="nav-links" class="flex items-center space-x-4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;a href="#home" class="text-gray-600 hover:text-gray-800"&gt;Tienda&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;a href="#cart" class="text-gray-600 hover:text-gray-800"&gt;Carrito (&lt;span id="cart-count"&gt;0&lt;/span&gt;)&lt;/a&gt;</p>
-<p class="p2"><span class="Apple-converted-space">                </span></p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Links dinámicos para usuarios logueados/no logueados --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;a href="#vendor-dashboard" id="vendor-link" class="hidden text-gray-600 hover:text-gray-800 font-semibold"&gt;Panel de Vendedor&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div id="auth-links"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;a href="#login" class="text-gray-600 hover:text-gray-800"&gt;Acceder&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;a href="#register" class="ml-2 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700"&gt;Registrarse&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div id="user-session" class="hidden items-center"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span id="user-email" class="text-sm text-gray-500 mr-4"&gt;&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button id="logout-btn" class="bg-red-500 text-white py-2 px-3 rounded-lg hover:bg-red-600"&gt;Salir&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/nav&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/header&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;main id="app-root" class="container mx-auto p-6"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Página de la Tienda (Pública) --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="store-page"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;h1 class="text-3xl font-bold mb-6"&gt;Nuestros Productos&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                 </span>&lt;div class="text-center p-8"&gt;Cargando productos...&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Página del Carrito --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="cart-page" class="hidden"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;h1 class="text-3xl font-bold mb-6"&gt;Tu Carrito de Compras&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="cart-items-container" class="bg-white p-6 rounded-lg shadow-md"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="cart-summary" class="mt-6 bg-white p-6 rounded-lg shadow-md"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                 </span>&lt;h2 class="text-2xl font-semibold"&gt;Resumen&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                 </span>&lt;p class="text-lg mt-2"&gt;Total: $&lt;span id="cart-total"&gt;0.00&lt;/span&gt; MXN&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                 </span>&lt;div id="paypal-button-container" class="mt-4"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Página de Registro --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="register-page" class="hidden max-w-md mx-auto bg-white p-8 rounded-lg shadow-md"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;h1 class="text-2xl font-bold mb-6 text-center"&gt;Crear una Cuenta&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;form id="register-form"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="mb-4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label for="register-email" class="block text-gray-700"&gt;Email&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;input type="email" id="register-email" class="w-full px-3 py-2 border rounded-lg" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="mb-4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label for="register-password" class="block text-gray-700"&gt;Contraseña&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;input type="password" id="register-password" class="w-full px-3 py-2 border rounded-lg" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="mb-6"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="block text-gray-700 mb-2"&gt;Quiero registrarme como:&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="flex items-center space-x-4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label&gt;&lt;input type="radio" name="role" value="client" checked&gt; Cliente&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label&gt;&lt;input type="radio" name="role" value="vendor"&gt; Vendedor&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"&gt;Crear Cuenta&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/form&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-center mt-4"&gt;¿Ya tienes cuenta? &lt;a href="#login" class="text-blue-600 hover:underline"&gt;Inicia sesión&lt;/a&gt;&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Página de Login --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="login-page" class="hidden max-w-md mx-auto bg-white p-8 rounded-lg shadow-md"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;h1 class="text-2xl font-bold mb-6 text-center"&gt;Iniciar Sesión&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;form id="login-form"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="mb-4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label for="login-email" class="block text-gray-700"&gt;Email&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;input type="email" id="login-email" class="w-full px-3 py-2 border rounded-lg" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="mb-6"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label for="login-password" class="block text-gray-700"&gt;Contraseña&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;input type="password" id="login-password" class="w-full px-3 py-2 border rounded-lg" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"&gt;Acceder&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/form&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-center mt-4"&gt;¿No tienes cuenta? &lt;a href="#register" class="text-blue-600 hover:underline"&gt;Regístrate aquí&lt;/a&gt;&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Panel de Vendedor --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="vendor-dashboard-page" class="hidden"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;h1 class="text-3xl font-bold mb-6"&gt;Panel de Vendedor&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="bg-white p-8 rounded-lg shadow-md mb-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 class="text-2xl font-bold mb-4" id="form-title"&gt;Agregar Nuevo Producto&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;form id="product-form"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;input type="hidden" id="product-id"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="grid grid-cols-1 md:grid-cols-2 gap-4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="mb-4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;label for="product-name" class="block"&gt;Nombre&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;input type="text" id="product-name" class="w-full px-3 py-2 border rounded-lg" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="mb-4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;label for="product-price" class="block"&gt;Precio (MXN)&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;input type="number" id="product-price" step="0.01" class="w-full px-3 py-2 border rounded-lg" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="mb-4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label for="product-description" class="block"&gt;Descripción&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;textarea id="product-description" rows="3" class="w-full px-3 py-2 border rounded-lg" required&gt;&lt;/textarea&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="mb-4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label for="product-image" class="block"&gt;URL de la Imagen&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;input type="url" id="product-image" class="w-full px-3 py-2 border rounded-lg" placeholder="https://ejemplo.com/imagen.jpg" required&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="flex gap-4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;button type="submit" class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700" id="save-product-btn"&gt;Guardar Producto&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;button type="button" id="cancel-edit-btn" class="hidden bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600"&gt;Cancelar Edición&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/form&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="bg-white p-8 rounded-lg shadow-md"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                 </span>&lt;h2 class="text-2xl font-bold mb-4"&gt;Mis Productos&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                 </span>&lt;div id="vendor-product-list" class="space-y-4"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/main&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script type="module"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>import {<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>getFirestore, collection, onSnapshot, addDoc, doc, updateDoc, deleteDoc, setDoc, getDoc, query, where, setLogLevel<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";</p>
-<p class="p1"><span class="Apple-converted-space">        </span>import {<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const app = initializeApp(firebaseConfig);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const db = getFirestore(app);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const auth = getAuth(app);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>setLogLevel('debug');</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const productsCollection = collection(db, `artifacts/${appId}/public/data/products`);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const usersCollection = collection(db, `artifacts/${appId}/public/data/users`);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>let allProducts = [];</p>
-<p class="p1"><span class="Apple-converted-space">        </span>let vendorProducts = [];</p>
-<p class="p1"><span class="Apple-converted-space">        </span>let cart = JSON.parse(localStorage.getItem('cart')) || [];</p>
-<p class="p1"><span class="Apple-converted-space">        </span>let currentUser = null;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>let currentUserProfile = null;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>let unsubscribeVendorProducts = null;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const pages = {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>store: document.getElementById('store-page'),</p>
-<p class="p1"><span class="Apple-converted-space">            </span>cart: document.getElementById('cart-page'),</p>
-<p class="p1"><span class="Apple-converted-space">            </span>register: document.getElementById('register-page'),</p>
-<p class="p1"><span class="Apple-converted-space">            </span>login: document.getElementById('login-page'),</p>
-<p class="p1"><span class="Apple-converted-space">            </span>vendorDashboard: document.getElementById('vendor-dashboard-page')</p>
-<p class="p1"><span class="Apple-converted-space">        </span>};</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const productList = document.getElementById('product-list');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const vendorProductList = document.getElementById('vendor-product-list');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const cartCount = document.getElementById('cart-count');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const cartItemsContainer = document.getElementById('cart-items-container');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const cartTotal = document.getElementById('cart-total');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const productForm = document.getElementById('product-form');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const registerForm = document.getElementById('register-form');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const loginForm = document.getElementById('login-form');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const logoutBtn = document.getElementById('logout-btn');</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>function navigate(hash) {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>Object.values(pages).forEach(page =&gt; page.classList.add('hidden'));</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const targetPage = hash.substring(1);<span class="Apple-converted-space"> </span></p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (targetPage === 'vendor-dashboard' &amp;&amp; (!currentUser || currentUserProfile?.role !== 'vendor')) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>window.location.hash = '#login';</p>
-<p class="p1"><span class="Apple-converted-space">                </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>switch (targetPage) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>case 'cart': pages.cart.classList.remove('hidden'); renderCart(); break;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>case 'register': pages.register.classList.remove('hidden'); break;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>case 'login': pages.login.classList.remove('hidden'); break;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>case 'vendor-dashboard': pages.vendorDashboard.classList.remove('hidden'); break;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>case 'home':</p>
-<p class="p1"><span class="Apple-converted-space">                </span>default:</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>pages.store.classList.remove('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>break;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>function updateNavUI() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const authLinks = document.getElementById('auth-links');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const userSession = document.getElementById('user-session');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const vendorLink = document.getElementById('vendor-link');</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (currentUser) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>authLinks.classList.add('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>userSession.classList.remove('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('user-email').textContent = currentUser.email;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                </span>if (currentUserProfile?.role === 'vendor') {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>vendorLink.classList.remove('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>vendorLink.classList.add('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>authLinks.classList.remove('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>userSession.classList.add('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>vendorLink.classList.add('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>function renderAllProducts() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>productList.innerHTML = '';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (allProducts.length === 0) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>productList.innerHTML = '&lt;p class="col-span-full text-center"&gt;No hay productos disponibles.&lt;/p&gt;';</p>
-<p class="p1"><span class="Apple-converted-space">                </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>allProducts.forEach(product =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>const card = `</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="product-card bg-white rounded-lg shadow-md overflow-hidden"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https.placehold.co/600x400/cccccc/ffffff?text=Imagen no disponible';"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="p-4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;h3 class="text-lg font-bold"&gt;${product.name}&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p class="text-gray-600 mt-1 h-20 overflow-hidden"&gt;${product.description}&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p class="text-xl font-bold mt-2"&gt;$${product.price.toFixed(2)} MXN&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;button data-id="${product.id}" class="add-to-cart-btn mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"&gt;Agregar al Carrito&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>productList.insertAdjacentHTML('beforeend', card);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>});</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>function renderVendorProducts() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>vendorProductList.innerHTML = '';</p>
-<p class="p1"><span class="Apple-converted-space">             </span>if (vendorProducts.length === 0) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>vendorProductList.innerHTML = '&lt;p&gt;Aún no has agregado ningún producto.&lt;/p&gt;';</p>
-<p class="p1"><span class="Apple-converted-space">                </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>vendorProducts.forEach(product =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>const item = `</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg border"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p class="font-semibold"&gt;${product.name} - $${product.price.toFixed(2)}&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex gap-2"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;button data-id="${product.id}" class="edit-btn bg-yellow-500 text-white py-2 px-3 rounded hover:bg-yellow-600"&gt;Editar&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;button data-id="${product.id}" class="delete-btn bg-red-500 text-white py-2 px-3 rounded hover:bg-red-600"&gt;Eliminar&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>vendorProductList.insertAdjacentHTML('beforeend', item);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>});</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>function renderCart() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>cartItemsContainer.innerHTML = '';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (cart.length === 0) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>cartItemsContainer.innerHTML = '&lt;p&gt;Tu carrito está vacío.&lt;/p&gt;';</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('cart-summary').classList.add('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('cart-summary').classList.remove('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>let total = 0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>cart.forEach(item =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>const itemHtml = `</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="flex justify-between items-center border-b py-2"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div&gt;&lt;p class="font-semibold"&gt;${item.name} (x${item.quantity})&lt;/p&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="font-semibold"&gt;$${(item.price * item.quantity).toFixed(2)}&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;`;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>cartItemsContainer.insertAdjacentHTML('beforeend', itemHtml);</p>
-<p class="p1"><span class="Apple-converted-space">                </span>total += item.price * item.quantity;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>cartTotal.textContent = total.toFixed(2);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>renderPayPalButtons(total);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>function updateCartCount() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>cartCount.textContent = cart.reduce((sum, item) =&gt; sum + item.quantity, 0);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>function addToCart(productId) {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const product = allProducts.find(p =&gt; p.id === productId);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (!product) return;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const cartItem = cart.find(item =&gt; item.id === productId);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (cartItem) cartItem.quantity++;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>else cart.push({ ...product, quantity: 1 });</p>
-<p class="p1"><span class="Apple-converted-space">            </span>saveCart();</p>
-<p class="p1"><span class="Apple-converted-space">            </span>showToast(`"${product.name}" fue agregado al carrito.`);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>function saveCart() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>localStorage.setItem('cart', JSON.stringify(cart));</p>
-<p class="p1"><span class="Apple-converted-space">            </span>updateCartCount();</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>function renderPayPalButtons(total) {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const paypalContainer = document.getElementById('paypal-button-container');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>paypalContainer.innerHTML = '';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (total &lt;= 0) return;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>paypal.Buttons({</p>
-<p class="p1"><span class="Apple-converted-space">                </span>createOrder: (data, actions) =&gt; actions.order.create({</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>purchase_units: [{ amount: { value: total.toFixed(2), currency_code: 'MXN' } }]</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}),</p>
-<p class="p1"><span class="Apple-converted-space">                </span>onApprove: (data, actions) =&gt; actions.order.capture().then(details =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>showToast(`¡Pago completado por ${details.payer.name.given_name}!`);</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>cart = [];</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>saveCart();</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>renderCart();</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>window.location.hash = '#home';</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}),</p>
-<p class="p1"><span class="Apple-converted-space">                </span>onError: (err) =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>console.error('Error de PayPal:', err);</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>showToast('Ocurrió un error con el pago.', 'error');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}).render('#paypal-button-container');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>async function handleProductFormSubmit(e) {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>e.preventDefault();</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (!currentUser || currentUserProfile?.role !== 'vendor') {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>showToast('Acción no permitida.', 'error');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const id = document.getElementById('product-id').value;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const productData = {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>name: document.getElementById('product-name').value,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>price: parseFloat(document.getElementById('product-price').value),</p>
-<p class="p1"><span class="Apple-converted-space">                </span>description: document.getElementById('product-description').value,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>image: document.getElementById('product-image').value,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>vendorId: currentUser.uid</p>
-<p class="p1"><span class="Apple-converted-space">            </span>};</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>if (id) {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>const productRef = doc(db, `artifacts/${appId}/public/data/products`, id);</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>await updateDoc(productRef, productData);</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>showToast('Producto actualizado con éxito.');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>await addDoc(productsCollection, productData);</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>showToast('Producto agregado con éxito.');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}</p>
-<p class="p1"><span class="Apple-converted-space">                </span>productForm.reset();</p>
-<p class="p1"><span class="Apple-converted-space">                </span>cancelEdit();</p>
-<p class="p1"><span class="Apple-converted-space">            </span>} catch (error) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>console.error("Error al guardar el producto: ", error);</p>
-<p class="p1"><span class="Apple-converted-space">                </span>showToast('Error al guardar el producto.', 'error');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>function handleEditProduct(id) {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const product = vendorProducts.find(p =&gt; p.id === id);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (!product) return;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('product-id').value = product.id;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('product-name').value = product.name;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('product-price').value = product.price;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('product-description').value = product.description;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('product-image').value = product.image;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('form-title').textContent = 'Editando Producto';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('cancel-edit-btn').classList.remove('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>window.scrollTo(0, 0);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>async function handleDeleteProduct(id) {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>try {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>await deleteDoc(doc(db, `artifacts/${appId}/public/data/products`, id));</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>showToast('Producto eliminado.');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>} catch(error) {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>console.error("Error al eliminar producto: ", error);</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>showToast('Error al eliminar producto.', 'error');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>function cancelEdit() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>productForm.reset();</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('product-id').value = '';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('form-title').textContent = 'Agregar Nuevo Producto';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('cancel-edit-btn').classList.add('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>async function handleRegistration(e) {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>e.preventDefault();</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const email = document.getElementById('register-email').value;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const password = document.getElementById('register-password').value;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const role = document.querySelector('input[name="role"]:checked').value;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>const userCredential = await createUserWithEmailAndPassword(auth, email, password);</p>
-<p class="p1"><span class="Apple-converted-space">                </span>const user = userCredential.user;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>await setDoc(doc(usersCollection, user.uid), {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>email: user.email,</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>role: role</p>
-<p class="p1"><span class="Apple-converted-space">                </span>});</p>
-<p class="p1"><span class="Apple-converted-space">                </span>showToast('¡Cuenta creada exitosamente!');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>// onAuthStateChanged se encargará de redirigir y actualizar la UI</p>
-<p class="p1"><span class="Apple-converted-space">            </span>} catch (error) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>console.error('Error de registro:', error);</p>
-<p class="p1"><span class="Apple-converted-space">                </span>showToast(error.message, 'error');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>async function handleLogin(e) {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>e.preventDefault();</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const email = document.getElementById('login-email').value;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const password = document.getElementById('login-password').value;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>await signInWithEmailAndPassword(auth, email, password);</p>
-<p class="p1"><span class="Apple-converted-space">                </span>showToast('Inicio de sesión exitoso.');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>} catch (error) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>console.error('Error de inicio de sesión:', error);</p>
-<p class="p1"><span class="Apple-converted-space">                </span>showToast('Credenciales incorrectas.', 'error');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>function handleLogout() {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>signOut(auth);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>window.addEventListener('hashchange', () =&gt; navigate(window.location.hash));</p>
-<p class="p1"><span class="Apple-converted-space">        </span>window.addEventListener('load', () =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>onSnapshot(productsCollection, (snapshot) =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>allProducts = snapshot.docs.map(doc =&gt; ({ id: doc.id, ...doc.data() }));</p>
-<p class="p1"><span class="Apple-converted-space">                </span>renderAllProducts();</p>
-<p class="p1"><span class="Apple-converted-space">            </span>});</p>
-<p class="p1"><span class="Apple-converted-space">            </span>navigate(window.location.hash || '#home');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>productList.addEventListener('click', e =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (e.target.classList.contains('add-to-cart-btn')) addToCart(e.target.dataset.id);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>vendorProductList.addEventListener('click', e =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const id = e.target.dataset.id;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (e.target.classList.contains('edit-btn')) handleEditProduct(id);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (e.target.classList.contains('delete-btn')) handleDeleteProduct(id);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>productForm.addEventListener('submit', handleProductFormSubmit);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('cancel-edit-btn').addEventListener('click', cancelEdit);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>registerForm.addEventListener('submit', handleRegistration);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>loginForm.addEventListener('submit', handleLogin);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>logoutBtn.addEventListener('click', handleLogout);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>onAuthStateChanged(auth, async (user) =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (unsubscribeVendorProducts) unsubscribeVendorProducts();</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (user) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>currentUser = user;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>const userDoc = await getDoc(doc(usersCollection, user.uid));</p>
-<p class="p1"><span class="Apple-converted-space">                </span>if (userDoc.exists()) {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>currentUserProfile = userDoc.data();</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>if (currentUserProfile.role === 'vendor') {</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>const q = query(productsCollection, where("vendorId", "==", user.uid));</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>unsubscribeVendorProducts = onSnapshot(q, (snapshot) =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>vendorProducts = snapshot.docs.map(doc =&gt; ({ id: doc.id, ...doc.data() }));</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>renderVendorProducts();</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>});</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>if (['#login', '#register', ''].includes(window.location.hash)) {</p>
-<p class="p1"><span class="Apple-converted-space">                           </span>window.location.hash = '#vendor-dashboard';</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>} else { // Es cliente</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>if (['#login', '#register', '#vendor-dashboard', ''].includes(window.location.hash)) {</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>window.location.hash = '#home';</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>currentUser = null;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>currentUserProfile = null;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>vendorProducts = [];</p>
-<p class="p1"><span class="Apple-converted-space">                </span>renderVendorProducts();</p>
-<p class="p1"><span class="Apple-converted-space">                </span>if (window.location.hash === '#vendor-dashboard') {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>window.location.hash = '#home';</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>updateNavUI();</p>
-<p class="p1"><span class="Apple-converted-space">            </span>navigate(window.location.hash);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>function showToast(message, type = 'success') {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const toast = document.getElementById('toast-notification');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const toastMessage = document.getElementById('toast-message');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>toastMessage.textContent = message;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>toast.className = `fixed top-5 right-5 text-white py-2 px-4 rounded-lg shadow-lg z-50 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'}`;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>toast.classList.remove('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>setTimeout(() =&gt; toast.classList.add('hidden'), 3000);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>updateCartCount();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
-<p class="p2"><br></p>
+<body class="bg-gray-100 text-gray-800">
+
+    <div id="toast-notification" class="hidden fixed top-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg z-50">
+        <p id="toast-message"></p>
+    </div>
+
+    <header class="bg-white shadow-md sticky top-0 z-40">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-bold text-gray-800">MiTienda</a>
+            <div id="nav-links" class="flex items-center space-x-4">
+                <a href="#home" class="text-gray-600 hover:text-gray-800">Tienda</a>
+                <a href="#cart" class="text-gray-600 hover:text-gray-800">Carrito (<span id="cart-count">0</span>)</a>
+                
+                <!-- Links dinámicos para usuarios logueados/no logueados -->
+                <a href="#vendor-dashboard" id="vendor-link" class="hidden text-gray-600 hover:text-gray-800 font-semibold">Panel de Vendedor</a>
+                <div id="auth-links">
+                    <a href="#login" class="text-gray-600 hover:text-gray-800">Acceder</a>
+                    <a href="#register" class="ml-2 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Registrarse</a>
+                </div>
+                <div id="user-session" class="hidden items-center">
+                    <span id="user-email" class="text-sm text-gray-500 mr-4"></span>
+                    <button id="logout-btn" class="bg-red-500 text-white py-2 px-3 rounded-lg hover:bg-red-600">Salir</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main id="app-root" class="container mx-auto p-6">
+        <!-- Página de la Tienda (Pública) -->
+        <div id="store-page">
+            <h1 class="text-3xl font-bold mb-6">Nuestros Productos</h1>
+            <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                 <div class="text-center p-8">Cargando productos...</div>
+            </div>
+        </div>
+
+        <!-- Página del Carrito -->
+        <div id="cart-page" class="hidden">
+            <h1 class="text-3xl font-bold mb-6">Tu Carrito de Compras</h1>
+            <div id="cart-items-container" class="bg-white p-6 rounded-lg shadow-md"></div>
+            <div id="cart-summary" class="mt-6 bg-white p-6 rounded-lg shadow-md">
+                 <h2 class="text-2xl font-semibold">Resumen</h2>
+                 <p class="text-lg mt-2">Total: $<span id="cart-total">0.00</span> MXN</p>
+                 <div id="paypal-button-container" class="mt-4"></div>
+            </div>
+        </div>
+
+        <!-- Página de Registro -->
+        <div id="register-page" class="hidden max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
+            <h1 class="text-2xl font-bold mb-6 text-center">Crear una Cuenta</h1>
+            <form id="register-form">
+                <div class="mb-4">
+                    <label for="register-email" class="block text-gray-700">Email</label>
+                    <input type="email" id="register-email" class="w-full px-3 py-2 border rounded-lg" required>
+                </div>
+                <div class="mb-4">
+                    <label for="register-password" class="block text-gray-700">Contraseña</label>
+                    <input type="password" id="register-password" class="w-full px-3 py-2 border rounded-lg" required>
+                </div>
+                <div class="mb-6">
+                    <p class="block text-gray-700 mb-2">Quiero registrarme como:</p>
+                    <div class="flex items-center space-x-4">
+                        <label><input type="radio" name="role" value="client" checked> Cliente</label>
+                        <label><input type="radio" name="role" value="vendor"> Vendedor</label>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Crear Cuenta</button>
+            </form>
+            <p class="text-center mt-4">¿Ya tienes cuenta? <a href="#login" class="text-blue-600 hover:underline">Inicia sesión</a></p>
+        </div>
+
+        <!-- Página de Login -->
+        <div id="login-page" class="hidden max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
+            <h1 class="text-2xl font-bold mb-6 text-center">Iniciar Sesión</h1>
+            <form id="login-form">
+                <div class="mb-4">
+                    <label for="login-email" class="block text-gray-700">Email</label>
+                    <input type="email" id="login-email" class="w-full px-3 py-2 border rounded-lg" required>
+                </div>
+                <div class="mb-6">
+                    <label for="login-password" class="block text-gray-700">Contraseña</label>
+                    <input type="password" id="login-password" class="w-full px-3 py-2 border rounded-lg" required>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Acceder</button>
+            </form>
+            <p class="text-center mt-4">¿No tienes cuenta? <a href="#register" class="text-blue-600 hover:underline">Regístrate aquí</a></p>
+        </div>
+        
+        <!-- Panel de Vendedor -->
+        <div id="vendor-dashboard-page" class="hidden">
+            <h1 class="text-3xl font-bold mb-6">Panel de Vendedor</h1>
+            <div class="bg-white p-8 rounded-lg shadow-md mb-8">
+                <h2 class="text-2xl font-bold mb-4" id="form-title">Agregar Nuevo Producto</h2>
+                <form id="product-form">
+                    <input type="hidden" id="product-id">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="mb-4">
+                            <label for="product-name" class="block">Nombre</label>
+                            <input type="text" id="product-name" class="w-full px-3 py-2 border rounded-lg" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="product-price" class="block">Precio (MXN)</label>
+                            <input type="number" id="product-price" step="0.01" class="w-full px-3 py-2 border rounded-lg" required>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="product-description" class="block">Descripción</label>
+                        <textarea id="product-description" rows="3" class="w-full px-3 py-2 border rounded-lg" required></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label for="product-image" class="block">URL de la Imagen</label>
+                        <input type="url" id="product-image" class="w-full px-3 py-2 border rounded-lg" placeholder="https://ejemplo.com/imagen.jpg" required>
+                    </div>
+                    <div class="flex gap-4">
+                        <button type="submit" class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700" id="save-product-btn">Guardar Producto</button>
+                        <button type="button" id="cancel-edit-btn" class="hidden bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600">Cancelar Edición</button>
+                    </div>
+                </form>
+            </div>
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                 <h2 class="text-2xl font-bold mb-4">Mis Productos</h2>
+                 <div id="vendor-product-list" class="space-y-4"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { 
+            getFirestore, collection, onSnapshot, addDoc, doc, updateDoc, deleteDoc, setDoc, getDoc, query, where, setLogLevel 
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { 
+            getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged 
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        setLogLevel('debug');
+
+        const productsCollection = collection(db, `artifacts/${appId}/public/data/products`);
+        const usersCollection = collection(db, `artifacts/${appId}/public/data/users`);
+
+        let allProducts = [];
+        let vendorProducts = [];
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let currentUser = null;
+        let currentUserProfile = null;
+        let unsubscribeVendorProducts = null;
+
+        const pages = {
+            store: document.getElementById('store-page'),
+            cart: document.getElementById('cart-page'),
+            register: document.getElementById('register-page'),
+            login: document.getElementById('login-page'),
+            vendorDashboard: document.getElementById('vendor-dashboard-page')
+        };
+        const productList = document.getElementById('product-list');
+        const vendorProductList = document.getElementById('vendor-product-list');
+        const cartCount = document.getElementById('cart-count');
+        const cartItemsContainer = document.getElementById('cart-items-container');
+        const cartTotal = document.getElementById('cart-total');
+        const productForm = document.getElementById('product-form');
+        const registerForm = document.getElementById('register-form');
+        const loginForm = document.getElementById('login-form');
+        const logoutBtn = document.getElementById('logout-btn');
+        
+        function navigate(hash) {
+            Object.values(pages).forEach(page => page.classList.add('hidden'));
+            const targetPage = hash.substring(1); 
+            
+            if (targetPage === 'vendor-dashboard' && (!currentUser || currentUserProfile?.role !== 'vendor')) {
+                window.location.hash = '#login';
+                return;
+            }
+            
+            switch (targetPage) {
+                case 'cart': pages.cart.classList.remove('hidden'); renderCart(); break;
+                case 'register': pages.register.classList.remove('hidden'); break;
+                case 'login': pages.login.classList.remove('hidden'); break;
+                case 'vendor-dashboard': pages.vendorDashboard.classList.remove('hidden'); break;
+                case 'home':
+                default:
+                    pages.store.classList.remove('hidden');
+                    break;
+            }
+        }
+
+        function updateNavUI() {
+            const authLinks = document.getElementById('auth-links');
+            const userSession = document.getElementById('user-session');
+            const vendorLink = document.getElementById('vendor-link');
+
+            if (currentUser) {
+                authLinks.classList.add('hidden');
+                userSession.classList.remove('hidden');
+                document.getElementById('user-email').textContent = currentUser.email;
+
+                if (currentUserProfile?.role === 'vendor') {
+                    vendorLink.classList.remove('hidden');
+                } else {
+                    vendorLink.classList.add('hidden');
+                }
+            } else {
+                authLinks.classList.remove('hidden');
+                userSession.classList.add('hidden');
+                vendorLink.classList.add('hidden');
+            }
+        }
+
+        function renderAllProducts() {
+            productList.innerHTML = '';
+            if (allProducts.length === 0) {
+                productList.innerHTML = '<p class="col-span-full text-center">No hay productos disponibles.</p>';
+                return;
+            }
+            allProducts.forEach(product => {
+                const card = `
+                    <div class="product-card bg-white rounded-lg shadow-md overflow-hidden">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https.placehold.co/600x400/cccccc/ffffff?text=Imagen no disponible';">
+                        <div class="p-4">
+                            <h3 class="text-lg font-bold">${product.name}</h3>
+                            <p class="text-gray-600 mt-1 h-20 overflow-hidden">${product.description}</p>
+                            <p class="text-xl font-bold mt-2">$${product.price.toFixed(2)} MXN</p>
+                            <button data-id="${product.id}" class="add-to-cart-btn mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">Agregar al Carrito</button>
+                        </div>
+                    </div>`;
+                productList.insertAdjacentHTML('beforeend', card);
+            });
+        }
+        
+        function renderVendorProducts() {
+            vendorProductList.innerHTML = '';
+             if (vendorProducts.length === 0) {
+                vendorProductList.innerHTML = '<p>Aún no has agregado ningún producto.</p>';
+                return;
+            }
+            vendorProducts.forEach(product => {
+                const item = `
+                    <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg border">
+                        <div>
+                            <p class="font-semibold">${product.name} - $${product.price.toFixed(2)}</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button data-id="${product.id}" class="edit-btn bg-yellow-500 text-white py-2 px-3 rounded hover:bg-yellow-600">Editar</button>
+                            <button data-id="${product.id}" class="delete-btn bg-red-500 text-white py-2 px-3 rounded hover:bg-red-600">Eliminar</button>
+                        </div>
+                    </div>`;
+                vendorProductList.insertAdjacentHTML('beforeend', item);
+            });
+        }
+
+        function renderCart() {
+            cartItemsContainer.innerHTML = '';
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p>Tu carrito está vacío.</p>';
+                document.getElementById('cart-summary').classList.add('hidden');
+                return;
+            }
+            
+            document.getElementById('cart-summary').classList.remove('hidden');
+            let total = 0;
+            cart.forEach(item => {
+                const itemHtml = `
+                    <div class="flex justify-between items-center border-b py-2">
+                        <div><p class="font-semibold">${item.name} (x${item.quantity})</p></div>
+                        <p class="font-semibold">$${(item.price * item.quantity).toFixed(2)}</p>
+                    </div>`;
+                cartItemsContainer.insertAdjacentHTML('beforeend', itemHtml);
+                total += item.price * item.quantity;
+            });
+
+            cartTotal.textContent = total.toFixed(2);
+            renderPayPalButtons(total);
+        }
+
+        function updateCartCount() {
+            cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+        }
+
+        function addToCart(productId) {
+            const product = allProducts.find(p => p.id === productId);
+            if (!product) return;
+            const cartItem = cart.find(item => item.id === productId);
+            if (cartItem) cartItem.quantity++;
+            else cart.push({ ...product, quantity: 1 });
+            saveCart();
+            showToast(`"${product.name}" fue agregado al carrito.`);
+        }
+
+        function saveCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+        }
+
+        function renderPayPalButtons(total) {
+            const paypalContainer = document.getElementById('paypal-button-container');
+            paypalContainer.innerHTML = '';
+            if (total <= 0) return;
+            paypal.Buttons({
+                createOrder: (data, actions) => actions.order.create({
+                    purchase_units: [{ amount: { value: total.toFixed(2), currency_code: 'MXN' } }]
+                }),
+                onApprove: (data, actions) => actions.order.capture().then(details => {
+                    showToast(`¡Pago completado por ${details.payer.name.given_name}!`);
+                    cart = [];
+                    saveCart();
+                    renderCart();
+                    window.location.hash = '#home';
+                }),
+                onError: (err) => {
+                    console.error('Error de PayPal:', err);
+                    showToast('Ocurrió un error con el pago.', 'error');
+                }
+            }).render('#paypal-button-container');
+        }
+
+        async function handleProductFormSubmit(e) {
+            e.preventDefault();
+            if (!currentUser || currentUserProfile?.role !== 'vendor') {
+                showToast('Acción no permitida.', 'error');
+                return;
+            }
+            const id = document.getElementById('product-id').value;
+            const productData = {
+                name: document.getElementById('product-name').value,
+                price: parseFloat(document.getElementById('product-price').value),
+                description: document.getElementById('product-description').value,
+                image: document.getElementById('product-image').value,
+                vendorId: currentUser.uid
+            };
+
+            try {
+                if (id) {
+                    const productRef = doc(db, `artifacts/${appId}/public/data/products`, id);
+                    await updateDoc(productRef, productData);
+                    showToast('Producto actualizado con éxito.');
+                } else {
+                    await addDoc(productsCollection, productData);
+                    showToast('Producto agregado con éxito.');
+                }
+                productForm.reset();
+                cancelEdit();
+            } catch (error) {
+                console.error("Error al guardar el producto: ", error);
+                showToast('Error al guardar el producto.', 'error');
+            }
+        }
+
+        function handleEditProduct(id) {
+            const product = vendorProducts.find(p => p.id === id);
+            if (!product) return;
+            document.getElementById('product-id').value = product.id;
+            document.getElementById('product-name').value = product.name;
+            document.getElementById('product-price').value = product.price;
+            document.getElementById('product-description').value = product.description;
+            document.getElementById('product-image').value = product.image;
+            document.getElementById('form-title').textContent = 'Editando Producto';
+            document.getElementById('cancel-edit-btn').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        async function handleDeleteProduct(id) {
+            if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
+                try {
+                    await deleteDoc(doc(db, `artifacts/${appId}/public/data/products`, id));
+                    showToast('Producto eliminado.');
+                } catch(error) {
+                    console.error("Error al eliminar producto: ", error);
+                    showToast('Error al eliminar producto.', 'error');
+                }
+            }
+        }
+        
+        function cancelEdit() {
+            productForm.reset();
+            document.getElementById('product-id').value = '';
+            document.getElementById('form-title').textContent = 'Agregar Nuevo Producto';
+            document.getElementById('cancel-edit-btn').classList.add('hidden');
+        }
+        
+        async function handleRegistration(e) {
+            e.preventDefault();
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const role = document.querySelector('input[name="role"]:checked').value;
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                await setDoc(doc(usersCollection, user.uid), {
+                    email: user.email,
+                    role: role
+                });
+                showToast('¡Cuenta creada exitosamente!');
+                // onAuthStateChanged se encargará de redirigir y actualizar la UI
+            } catch (error) {
+                console.error('Error de registro:', error);
+                showToast(error.message, 'error');
+            }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                showToast('Inicio de sesión exitoso.');
+            } catch (error) {
+                console.error('Error de inicio de sesión:', error);
+                showToast('Credenciales incorrectas.', 'error');
+            }
+        }
+
+        function handleLogout() {
+            signOut(auth);
+        }
+
+        window.addEventListener('hashchange', () => navigate(window.location.hash));
+        window.addEventListener('load', () => {
+            onSnapshot(productsCollection, (snapshot) => {
+                allProducts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderAllProducts();
+            });
+            navigate(window.location.hash || '#home');
+        });
+
+        productList.addEventListener('click', e => {
+            if (e.target.classList.contains('add-to-cart-btn')) addToCart(e.target.dataset.id);
+        });
+        
+        vendorProductList.addEventListener('click', e => {
+            const id = e.target.dataset.id;
+            if (e.target.classList.contains('edit-btn')) handleEditProduct(id);
+            if (e.target.classList.contains('delete-btn')) handleDeleteProduct(id);
+        });
+
+        productForm.addEventListener('submit', handleProductFormSubmit);
+        document.getElementById('cancel-edit-btn').addEventListener('click', cancelEdit);
+        registerForm.addEventListener('submit', handleRegistration);
+        loginForm.addEventListener('submit', handleLogin);
+        logoutBtn.addEventListener('click', handleLogout);
+
+        onAuthStateChanged(auth, async (user) => {
+            if (unsubscribeVendorProducts) unsubscribeVendorProducts();
+
+            if (user) {
+                currentUser = user;
+                const userDoc = await getDoc(doc(usersCollection, user.uid));
+                if (userDoc.exists()) {
+                    currentUserProfile = userDoc.data();
+                    if (currentUserProfile.role === 'vendor') {
+                        const q = query(productsCollection, where("vendorId", "==", user.uid));
+                        unsubscribeVendorProducts = onSnapshot(q, (snapshot) => {
+                            vendorProducts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                            renderVendorProducts();
+                        });
+                        if (['#login', '#register', ''].includes(window.location.hash)) {
+                           window.location.hash = '#vendor-dashboard';
+                        }
+                    } else { // Es cliente
+                        if (['#login', '#register', '#vendor-dashboard', ''].includes(window.location.hash)) {
+                            window.location.hash = '#home';
+                        }
+                    }
+                }
+            } else {
+                currentUser = null;
+                currentUserProfile = null;
+                vendorProducts = [];
+                renderVendorProducts();
+                if (window.location.hash === '#vendor-dashboard') {
+                    window.location.hash = '#home';
+                }
+            }
+            updateNavUI();
+            navigate(window.location.hash);
+        });
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast-notification');
+            const toastMessage = document.getElementById('toast-message');
+            toastMessage.textContent = message;
+            toast.className = `fixed top-5 right-5 text-white py-2 px-4 rounded-lg shadow-lg z-50 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'}`;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3000);
+        }
+
+        updateCartCount();
+    </script>
 </body>
 </html>
+
+
