@@ -10,7 +10,7 @@
       Obtenlo desde tu panel de desarrollador de PayPal.
     -->
     <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=MXN"></script>
-    <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiVmlzaW9uIFNob3AgUFdBIiwic2hvcnRfbmFtZSI6IlZpc2lvblNob3AiLCJkZXNjcmlwdGlvbiI6IlVzYSBlc3RhIHRpZW5kYSBvbmxpbmUgY29tbyBBUFAiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHNaV04wYVc5dWN5Qm1aVzVqZEdsdmJrdGxlM1ZpZENBeE1EQWFNREF3TURBd01EQXdNREF3TUNBd01EQXdNREF4TURBd01EQXdNREF3TUNCelpYSjJhV05sUFNKbVptbHNaVDRnTURBeE1EQWFNREF3TURBd01EQXdNREF3TUNBd01EQXdNREF4TURBd01EQXdNREF3TUNCemRISnNaVDRnZEdWemRDSjlMV2xrUFFvPSIsInNpemVzIjoiMTkyeDE5MiIsInRypeciOiJpbWFnZS9zdmcreG1sIn0seyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4c1pXTjBhVzl1Y3lCbVpXNWpkR2x2Ymt0bGUzVnFkQ0F4TURBYU1EQXdNREF3TURBd01EQXdNQ0F3TURBd01EQXhNREF3TURBd01EQXdNQUF3TUNBekxXTjBhVzVsUFNKbVptbHNaVDRnTURBeE1EQWFNREF3TURBd01EQXdNREF3TUNBd01EQXdNREF4TURBd01EQXdNREF3TUNCemRISnNaVDRnZEdWemRDSjlMV2xrUFFvPSIsInNpemVzIjoiNTEyeDUxMiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dLCJzdGFydF91cmwiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzEzMTgzRSIsImNvbG9yIjoiIzEwQjk4MSJ9">
+    <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiVmlzaW9uIFNob3AgUFdBIiwic2hvcnRfbmFtZSI6IlZpc2lvblNob3AiLCJkZXNjcmlwdGlvbiI6IlVzYSBlc3RhIHRpZW5kYSBvbmxpbmUgY29tbyBBUFAiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHNaV04wYVc5dWN5Qm1aVzVqZEdsdmJrdGxlM1ZpZENBeE1EQWFNREF3TURBd01EQXdNREF3TUNBd01EQXdNREF4TURBd01EQXdNREF3TUNCelpYSjJhV05sUFNKbVptbHNaVDRnTURBeE1EQWFNREF3TURBd01EQXdNREF3TUNBd01EQXdNREF4TURBd01EQXdNREF3TUNCemRISnNaVDRnZEdWemRDSjlMV2xrUFFvPSIsInNpemVzIjoiMTkyeDE5MiIsInRypeciOiJpbWFnZS9zdmcreG1sIn0seyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWw7Y2hhcnNldD11dGYtOCxiYXNlNjQsUEhOMlp5QjRiV3hzWldOMGFXOXVjeUJtWlc1amRHbHZiZ3RsZTNWcWRDQXhNREFhTURBd01EQXdNREF3TURBd01EQXdNQ0F3TURBd01EQXhNREF3TURBd01EQXdNQUF3TUNBekxXTjBhVzVsUFNKbVptbHNaVDRnTURBeE1EQWFNREF3TURBd01EQXdNREF3TUNBd01EQXdNREF4TURBd01EQXdNREF3TUNCemRISnNaVDRnZEdWemRDSjlMV2xrUFFvPSIsInNpemVzIjoiNTEyeDUxMiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dLCJzdGFydF91cmwiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzEzMTgzRSIsImNvbG9yIjoiIzEwQjk4MSJ9">
     <style>
         body { font-family: 'Inter', sans-serif; }
         .product-card {
@@ -242,29 +242,11 @@
         let unsubscribeClientOrders = null;
         let unsubscribeVendorOrders = null;
         
-        // Referencias al DOM
-        const pages = {
-            store: document.getElementById('store-page'),
-            cart: document.getElementById('cart-page'),
-            register: document.getElementById('register-page'),
-            login: document.getElementById('login-page'),
-            vendorDashboard: document.getElementById('vendor-dashboard-page'),
-            orders: document.getElementById('orders-page'),
-        };
-        const productList = document.getElementById('product-list');
-        const vendorProductList = document.getElementById('vendor-product-list');
-        const cartCount = document.getElementById('cart-count');
-        const cartItemsContainer = document.getElementById('cart-items-container');
-        const cartTotal = document.getElementById('cart-total');
-        const productForm = document.getElementById('product-form');
-        const registerForm = document.getElementById('register-form');
-        const loginForm = document.getElementById('login-form');
-        const logoutBtn = document.getElementById('logout-btn');
-
-        const ordersListContainer = document.getElementById('orders-list-container');
-        const vendorOrdersListContainer = document.getElementById('vendor-orders-list-container');
-        const shippingModal = document.getElementById('shipping-modal');
-        const shippingForm = document.getElementById('shipping-form');
+        // Referencias al DOM (declaradas aquí, asignadas después de cargar el DOM)
+        let pages = {};
+        let productList, vendorProductList, cartCount, cartItemsContainer, cartTotal;
+        let productForm, registerForm, loginForm, logoutBtn;
+        let ordersListContainer, vendorOrdersListContainer, shippingModal, shippingForm;
 
         function navigate(hash) {
             Object.values(pages).forEach(page => page.classList.add('hidden'));
@@ -619,11 +601,9 @@
             signOut(auth);
         }
         
-        // --- INICIO DE LA LÓGICA DE AUTENTICACIÓN Y CARGA DE DATOS ---
         async function main() {
             // Configura el observador de estado de autenticación.
             onAuthStateChanged(auth, async (user) => {
-                // Limpia los listeners de datos privados anteriores para evitar duplicados
                 if (unsubscribeVendorProducts) unsubscribeVendorProducts();
                 if (unsubscribeClientOrders) unsubscribeClientOrders();
                 if (unsubscribeVendorOrders) unsubscribeVendorOrders();
@@ -653,22 +633,18 @@
                                 renderVendorOrders(orders);
                             });
                         }
-                        // Redirige al usuario si está en una página de login/registro
                         if (['#login', '#register', ''].includes(window.location.hash)) {
                             window.location.hash = currentUserProfile.role === 'vendor' ? '#vendor-dashboard' : '#home';
                         }
                     } else {
-                        // FIX: No cierra sesión si el perfil no existe, ya que puede ser una condición de carrera durante el registro.
                         currentUserProfile = null;
                         console.warn("Perfil de usuario aún no creado para:", user.uid, "- esto puede ser normal durante el registro.");
                     }
                 } else {
-                    // El usuario es anónimo o ha cerrado sesión
                     currentUser = null;
                     currentUserProfile = null;
                     vendorProducts = [];
                     renderVendorProducts();
-                    // Si el usuario estaba en una página privada, lo redirige a home
                     if (['#vendor-dashboard', '#orders'].includes(window.location.hash)) {
                         window.location.hash = '#home';
                     }
@@ -677,7 +653,6 @@
                 navigate(window.location.hash || '#home');
             });
 
-            // FIX: Se asegura de que el usuario esté autenticado ANTES de cargar cualquier dato.
             try {
                  if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
@@ -690,7 +665,6 @@
                 return;
             }
 
-            // Ahora que la autenticación está garantizada, adjunta el listener para productos públicos.
             onSnapshot(productsCollection, (snapshot) => {
                 allProducts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 renderAllProducts();
@@ -700,63 +674,91 @@
             });
         }
         
-        // Carga inicial y listeners de eventos de la UI
-        window.addEventListener('hashchange', () => navigate(window.location.hash));
-        window.addEventListener('load', () => {
-            updateCartCount();
-            main(); // Inicia la aplicación
-            navigate(window.location.hash || '#home');
-        });
+        function initializeAppEventListeners() {
+            window.addEventListener('hashchange', () => navigate(window.location.hash));
 
-        productList.addEventListener('click', e => {
-            if (e.target.classList.contains('add-to-cart-btn')) addToCart(e.target.dataset.id);
-        });
-        
-        vendorProductList.addEventListener('click', e => {
-            const id = e.target.dataset.id;
-            if (e.target.classList.contains('edit-btn')) handleEditProduct(id);
-            if (e.target.classList.contains('delete-btn')) handleDeleteProduct(id);
-        });
+            productList.addEventListener('click', e => {
+                if (e.target.classList.contains('add-to-cart-btn')) addToCart(e.target.dataset.id);
+            });
+            
+            vendorProductList.addEventListener('click', e => {
+                const id = e.target.dataset.id;
+                if (e.target.classList.contains('edit-btn')) handleEditProduct(id);
+                if (e.target.classList.contains('delete-btn')) handleDeleteProduct(id);
+            });
 
-        productForm.addEventListener('submit', handleProductFormSubmit);
-        document.getElementById('cancel-edit-btn').addEventListener('click', cancelEdit);
-        registerForm.addEventListener('submit', handleRegistration);
-        loginForm.addEventListener('submit', handleLogin);
-        logoutBtn.addEventListener('click', handleLogout);
+            productForm.addEventListener('submit', handleProductFormSubmit);
+            document.getElementById('cancel-edit-btn').addEventListener('click', cancelEdit);
+            registerForm.addEventListener('submit', handleRegistration);
+            loginForm.addEventListener('submit', handleLogin);
+            logoutBtn.addEventListener('click', handleLogout);
 
-        vendorOrdersListContainer.addEventListener('click', e => {
-            if (e.target.classList.contains('update-shipping-btn')) {
-                const orderId = e.target.dataset.id;
-                document.getElementById('shipping-order-id').value = orderId;
-                shippingModal.classList.remove('hidden');
-            }
-        });
+            vendorOrdersListContainer.addEventListener('click', e => {
+                if (e.target.classList.contains('update-shipping-btn')) {
+                    const orderId = e.target.dataset.id;
+                    document.getElementById('shipping-order-id').value = orderId;
+                    shippingModal.classList.remove('hidden');
+                }
+            });
 
-        document.getElementById('cancel-shipping-update').addEventListener('click', () => {
-            shippingModal.classList.add('hidden');
-            shippingForm.reset();
-        });
-
-        shippingForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const orderId = document.getElementById('shipping-order-id').value;
-            const shippingCompany = document.getElementById('shipping-company').value;
-            const trackingNumber = document.getElementById('tracking-number').value;
-
-            try {
-                const orderRef = doc(db, `artifacts/${appId}/public/data/orders`, orderId);
-                await updateDoc(orderRef, {
-                    status: 'Enviado',
-                    shippingCompany: shippingCompany,
-                    trackingNumber: trackingNumber
-                });
-                showToast('Información de envío actualizada.');
+            document.getElementById('cancel-shipping-update').addEventListener('click', () => {
                 shippingModal.classList.add('hidden');
                 shippingForm.reset();
-            } catch (error) {
-                console.error("Error al actualizar envío:", error);
-                showToast('Error al actualizar el envío.', 'error');
-            }
+            });
+
+            shippingForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const orderId = document.getElementById('shipping-order-id').value;
+                const shippingCompany = document.getElementById('shipping-company').value;
+                const trackingNumber = document.getElementById('tracking-number').value;
+
+                try {
+                    const orderRef = doc(db, `artifacts/${appId}/public/data/orders`, orderId);
+                    await updateDoc(orderRef, {
+                        status: 'Enviado',
+                        shippingCompany: shippingCompany,
+                        trackingNumber: trackingNumber
+                    });
+                    showToast('Información de envío actualizada.');
+                    shippingModal.classList.add('hidden');
+                    shippingForm.reset();
+                } catch (error) {
+                    console.error("Error al actualizar envío:", error);
+                    showToast('Error al actualizar el envío.', 'error');
+                }
+            });
+        }
+
+        // FIX: Espera a que el DOM esté completamente cargado antes de inicializar la app y los listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Asigna las referencias al DOM aquí, cuando es seguro que existen
+            pages = {
+                store: document.getElementById('store-page'),
+                cart: document.getElementById('cart-page'),
+                register: document.getElementById('register-page'),
+                login: document.getElementById('login-page'),
+                vendorDashboard: document.getElementById('vendor-dashboard-page'),
+                orders: document.getElementById('orders-page'),
+            };
+            productList = document.getElementById('product-list');
+            vendorProductList = document.getElementById('vendor-product-list');
+            cartCount = document.getElementById('cart-count');
+            cartItemsContainer = document.getElementById('cart-items-container');
+            cartTotal = document.getElementById('cart-total');
+            productForm = document.getElementById('product-form');
+            registerForm = document.getElementById('register-form');
+            loginForm = document.getElementById('login-form');
+            logoutBtn = document.getElementById('logout-btn');
+            ordersListContainer = document.getElementById('orders-list-container');
+            vendorOrdersListContainer = document.getElementById('vendor-orders-list-container');
+            shippingModal = document.getElementById('shipping-modal');
+            shippingForm = document.getElementById('shipping-form');
+
+            // Ahora inicializa todo lo demás
+            updateCartCount();
+            initializeAppEventListeners();
+            main(); 
+            navigate(window.location.hash || '#home');
         });
         
         function showToast(message, type = 'success') {
