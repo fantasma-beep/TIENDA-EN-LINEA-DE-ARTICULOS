@@ -35,6 +35,12 @@
 </head>
 <body class="bg-gray-900 text-gray-200">
 
+    <div id="config-error" class="hidden fixed inset-0 bg-red-900 text-white p-8 flex flex-col justify-center items-center z-[100] text-center">
+        <h1 class="text-3xl font-bold mb-4">Error de Configuración Crítico</h1>
+        <p class="text-lg">La aplicación no pudo inicializar los servicios de Firebase.</p>
+        <p class="mt-2 text-md max-w-2xl">Esto usualmente significa que la configuración de Firebase no se ha proporcionado correctamente en el entorno de ejecución. Por favor, asegúrate de haber seguido todos los pasos de la guía `README.md` para configurar tu proyecto y desplegarlo.</p>
+    </div>
+    
     <div id="toast-notification" class="hidden fixed top-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg z-50">
         <p id="toast-message"></p>
     </div>
@@ -58,7 +64,6 @@
                 <a href="#home" class="text-gray-300 hover:text-green-400">Tienda</a>
                 <a href="#cart" class="text-gray-300 hover:text-green-400">Carrito (<span id="cart-count">0</span>)</a>
                 
-                <!-- Links dinámicos para usuarios logueados -->
                 <a href="#orders" id="orders-link" class="hidden text-gray-300 hover:text-green-400 font-semibold">Mis Pedidos</a>
                 <a href="#vendor-dashboard" id="vendor-link" class="hidden text-gray-300 hover:text-green-400 font-semibold">Panel de Vendedor</a>
                 
@@ -75,7 +80,6 @@
     </header>
 
     <main id="app-root" class="container mx-auto p-6">
-        <!-- Página de la Tienda (Pública) -->
         <div id="store-page">
             <h1 class="text-3xl font-bold mb-6 text-white">Nuestros Productos</h1>
             <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -83,7 +87,6 @@
             </div>
         </div>
 
-        <!-- Página del Carrito -->
         <div id="cart-page" class="hidden">
             <h1 class="text-3xl font-bold mb-6 text-white">Tu Carrito de Compras</h1>
             <div id="cart-items-container" class="bg-gray-800 p-6 rounded-lg border border-gray-700"></div>
@@ -94,7 +97,6 @@
             </div>
         </div>
 
-        <!-- Página de Registro -->
         <div id="register-page" class="hidden max-w-md mx-auto bg-gray-800 p-8 rounded-lg border border-gray-700">
             <h1 class="text-2xl font-bold mb-6 text-center text-white">Crear una Cuenta</h1>
             <form id="register-form">
@@ -118,7 +120,6 @@
             <p class="text-center mt-4 text-sm">¿Ya tienes cuenta? <a href="#login" class="text-green-400 hover:underline">Inicia sesión</a></p>
         </div>
 
-        <!-- Página de Login -->
         <div id="login-page" class="hidden max-w-md mx-auto bg-gray-800 p-8 rounded-lg border border-gray-700">
             <h1 class="text-2xl font-bold mb-6 text-center text-white">Iniciar Sesión</h1>
             <form id="login-form">
@@ -135,18 +136,13 @@
             <p class="text-center mt-4 text-sm">¿No tienes cuenta? <a href="#register" class="text-green-400 hover:underline">Regístrate aquí</a></p>
         </div>
 
-        <!-- Página de Pedidos del Cliente -->
         <div id="orders-page" class="hidden">
             <h1 class="text-3xl font-bold mb-6 text-white">Mis Pedidos</h1>
-            <div id="orders-list-container" class="space-y-6">
-                <!-- Los pedidos del cliente se renderizarán aquí -->
-            </div>
+            <div id="orders-list-container" class="space-y-6"></div>
         </div>
         
-        <!-- Panel de Vendedor -->
         <div id="vendor-dashboard-page" class="hidden">
             <h1 class="text-3xl font-bold mb-6 text-white">Panel de Vendedor</h1>
-            <!-- Formulario de Productos -->
             <div class="bg-gray-800 p-8 rounded-lg border border-gray-700 mb-8">
                 <h2 class="text-2xl font-bold mb-4 text-white" id="form-title">Agregar Nuevo Producto</h2>
                 <form id="product-form">
@@ -175,12 +171,10 @@
                     </div>
                 </form>
             </div>
-            <!-- Lista de Mis Productos -->
             <div class="bg-gray-800 p-8 rounded-lg border border-gray-700 mb-8">
                  <h2 class="text-2xl font-bold mb-4 text-white">Mis Productos</h2>
                  <div id="vendor-product-list" class="space-y-4"></div>
             </div>
-            <!-- Sección de Pedidos para el Vendedor -->
             <div class="bg-gray-800 p-8 rounded-lg border border-gray-700">
                  <h2 class="text-2xl font-bold mb-4 text-white">Pedidos Recibidos</h2>
                  <div id="vendor-orders-list-container" class="space-y-6"></div>
@@ -188,7 +182,6 @@
         </div>
     </main>
 
-    <!-- Modal para Actualizar Envío -->
     <div id="shipping-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
         <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md border border-gray-700">
             <h2 class="text-xl font-bold mb-4 text-white">Actualizar Información de Envío</h2>
@@ -221,18 +214,6 @@
 
         // --- INICIO DE LA LÓGICA DE LA APP ---
         
-        // Configuración de Firebase y variables globales
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-        setLogLevel('debug');
-
-        const productsCollection = collection(db, `artifacts/${appId}/public/data/products`);
-        const usersCollection = collection(db, `artifacts/${appId}/public/data/users`);
-        const ordersCollection = collection(db, `artifacts/${appId}/public/data/orders`);
-
         let allProducts = [];
         let vendorProducts = [];
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -242,11 +223,11 @@
         let unsubscribeClientOrders = null;
         let unsubscribeVendorOrders = null;
         
-        // Referencias al DOM (declaradas aquí, asignadas después de cargar el DOM)
         let pages = {};
         let productList, vendorProductList, cartCount, cartItemsContainer, cartTotal;
         let productForm, registerForm, loginForm, logoutBtn;
         let ordersListContainer, vendorOrdersListContainer, shippingModal, shippingForm;
+        let db, auth, appId; // Declarar appId aquí
 
         function navigate(hash) {
             Object.values(pages).forEach(page => page.classList.add('hidden'));
@@ -256,22 +237,15 @@
                 window.location.hash = '#login';
                 return;
             }
-             if (targetPage === 'orders' && !currentUser) {
+            if (targetPage === 'orders' && !currentUser) {
                 window.location.hash = '#login';
                 return;
             }
             
-            switch (targetPage) {
-                case 'cart': pages.cart.classList.remove('hidden'); renderCart(); break;
-                case 'register': pages.register.classList.remove('hidden'); break;
-                case 'login': pages.login.classList.remove('hidden'); break;
-                case 'vendor-dashboard': pages.vendorDashboard.classList.remove('hidden'); break;
-                case 'orders': pages.orders.classList.remove('hidden'); break;
-                case 'home':
-                default:
-                    pages.store.classList.remove('hidden');
-                    break;
-            }
+            const pageToShow = pages[targetPage] || pages.store;
+            if(pageToShow) pageToShow.classList.remove('hidden');
+
+            if (targetPage === 'cart') renderCart();
         }
         
         function updateNavUI() {
@@ -280,19 +254,13 @@
             const vendorLink = document.getElementById('vendor-link');
             const ordersLink = document.getElementById('orders-link');
 
-            if (currentUser && currentUserProfile) { // Show user info only if profile is loaded
+            if (currentUser && currentUserProfile) {
                 authLinks.classList.add('hidden');
                 userSession.classList.remove('hidden');
                 document.getElementById('user-email').textContent = currentUser.email;
-
-                if (currentUserProfile.role === 'vendor') {
-                    vendorLink.classList.remove('hidden');
-                    ordersLink.classList.add('hidden');
-                } else {
-                    vendorLink.classList.add('hidden');
-                    ordersLink.classList.remove('hidden');
-                }
-            } else { // Handles anonymous users and logged out state
+                vendorLink.classList.toggle('hidden', currentUserProfile.role !== 'vendor');
+                ordersLink.classList.toggle('hidden', currentUserProfile.role !== 'client');
+            } else {
                 authLinks.classList.remove('hidden');
                 userSession.classList.add('hidden');
                 vendorLink.classList.add('hidden');
@@ -301,13 +269,9 @@
         }
         
         function renderAllProducts() {
-            productList.innerHTML = '';
-            if (allProducts.length === 0) {
-                productList.innerHTML = '<p class="col-span-full text-center">No hay productos disponibles.</p>';
-                return;
-            }
-            allProducts.forEach(product => {
-                const card = `
+            productList.innerHTML = allProducts.length === 0 
+                ? '<p class="col-span-full text-center">No hay productos disponibles.</p>'
+                : allProducts.map(product => `
                     <div class="product-card bg-gray-800 rounded-lg shadow-md overflow-hidden">
                         <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https.placehold.co/600x400/1F2937/ffffff?text=Imagen no disponible';">
                         <div class="p-4">
@@ -316,19 +280,13 @@
                             <p class="text-xl font-bold mt-2 text-green-400">$${product.price.toFixed(2)} MXN</p>
                             <button data-id="${product.id}" class="add-to-cart-btn mt-4 w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors">Agregar al Carrito</button>
                         </div>
-                    </div>`;
-                productList.insertAdjacentHTML('beforeend', card);
-            });
+                    </div>`).join('');
         }
         
         function renderVendorProducts() {
-            vendorProductList.innerHTML = '';
-             if (vendorProducts.length === 0) {
-                vendorProductList.innerHTML = '<p>Aún no has agregado ningún producto.</p>';
-                return;
-            }
-            vendorProducts.forEach(product => {
-                const item = `
+            vendorProductList.innerHTML = vendorProducts.length === 0
+                ? '<p>Aún no has agregado ningún producto.</p>'
+                : vendorProducts.map(product => `
                     <div class="flex justify-between items-center p-3 bg-gray-700 rounded-lg border border-gray-600">
                         <div>
                             <p class="font-semibold text-white">${product.name} - <span class="text-green-400">$${product.price.toFixed(2)}</span></p>
@@ -337,30 +295,25 @@
                             <button data-id="${product.id}" class="edit-btn bg-yellow-500 text-white py-2 px-3 rounded hover:bg-yellow-600 transition-colors">Editar</button>
                             <button data-id="${product.id}" class="delete-btn bg-red-600 text-white py-2 px-3 rounded hover:bg-red-700 transition-colors">Eliminar</button>
                         </div>
-                    </div>`;
-                vendorProductList.insertAdjacentHTML('beforeend', item);
-            });
+                    </div>`).join('');
         }
         
         function renderCart() {
-            cartItemsContainer.innerHTML = '';
+            document.getElementById('cart-summary').classList.toggle('hidden', cart.length === 0);
             if (cart.length === 0) {
                 cartItemsContainer.innerHTML = '<p>Tu carrito está vacío.</p>';
-                document.getElementById('cart-summary').classList.add('hidden');
                 return;
             }
             
-            document.getElementById('cart-summary').classList.remove('hidden');
             let total = 0;
-            cart.forEach(item => {
-                const itemHtml = `
+            cartItemsContainer.innerHTML = cart.map(item => {
+                total += item.price * item.quantity;
+                return `
                     <div class="flex justify-between items-center border-b border-gray-700 py-2">
                         <div><p class="font-semibold text-white">${item.name} (x${item.quantity})</p></div>
                         <p class="font-semibold text-green-400">$${(item.price * item.quantity).toFixed(2)}</p>
                     </div>`;
-                cartItemsContainer.insertAdjacentHTML('beforeend', itemHtml);
-                total += item.price * item.quantity;
-            });
+            }).join('');
 
             cartTotal.textContent = total.toFixed(2);
             renderPayPalButtons(total);
@@ -371,12 +324,7 @@
             paypalContainer.innerHTML = '';
             if (total <= 0) return;
             paypal.Buttons({
-                style: {
-                    layout: 'vertical',
-                    color:  'silver',
-                    shape:  'rect',
-                    label:  'paypal'
-                },
+                style: { layout: 'vertical', color: 'silver', shape: 'rect', label: 'paypal' },
                 createOrder: (data, actions) => actions.order.create({
                     purchase_units: [{ amount: { value: total.toFixed(2), currency_code: 'MXN' } }]
                 }),
@@ -397,22 +345,15 @@
 
         async function createOrderInFirestore() {
             if (!currentUser || cart.length === 0) return;
-            
             const vendorIds = [...new Set(cart.map(item => item.vendorId))];
-
             const orderData = {
-                userId: currentUser.uid,
-                userEmail: currentUser.email,
-                items: cart,
+                userId: currentUser.uid, userEmail: currentUser.email, items: cart,
                 total: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
-                orderDate: Timestamp.now(),
-                status: 'Procesando',
-                vendorIds: vendorIds,
-                shippingCompany: '',
-                trackingNumber: ''
+                orderDate: Timestamp.now(), status: 'Procesando', vendorIds: vendorIds,
+                shippingCompany: '', trackingNumber: ''
             };
             try {
-                await addDoc(ordersCollection, orderData);
+                await addDoc(collection(db, `artifacts/${appId}/public/data/orders`), orderData);
                 showToast('Tu pedido ha sido registrado.');
             } catch (error) {
                 console.error("Error al crear la orden:", error);
@@ -421,50 +362,41 @@
         }
         
         function renderUserOrders(orders) {
-            ordersListContainer.innerHTML = '';
-            if (orders.length === 0) {
-                ordersListContainer.innerHTML = '<p class="text-center">Aún no has realizado ningún pedido.</p>';
-                return;
-            }
-            orders.forEach(order => {
-                const trackingInfo = order.status === 'Enviado' ? `
-                    <p class="text-sm text-gray-400 mt-2">Paquetería: <span class="font-semibold text-gray-300">${order.shippingCompany}</span></p>
-                    <p class="text-sm text-gray-400">Rastreo: <span class="font-semibold text-green-400">${order.trackingNumber}</span></p>
-                ` : '';
-                const orderCard = `
-                    <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
-                        <div class="flex justify-between items-center">
-                            <p class="text-sm text-gray-400">Pedido: ${order.id}</p>
-                            <span class="text-sm font-semibold px-2 py-1 rounded-full ${order.status === 'Enviado' ? 'bg-blue-500 text-white' : 'bg-yellow-500 text-black'}">${order.status}</span>
-                        </div>
-                        <p class="text-gray-300 mt-2">Fecha: ${new Date(order.orderDate.seconds * 1000).toLocaleDateString()}</p>
-                        <p class="text-lg font-bold text-white mt-1">Total: $${order.total.toFixed(2)} MXN</p>
-                        ${trackingInfo}
-                    </div>`;
-                ordersListContainer.insertAdjacentHTML('beforeend', orderCard);
-            });
+            ordersListContainer.innerHTML = orders.length === 0
+                ? '<p class="text-center">Aún no has realizado ningún pedido.</p>'
+                : orders.map(order => {
+                    const trackingInfo = order.status === 'Enviado' ? `
+                        <p class="text-sm text-gray-400 mt-2">Paquetería: <span class="font-semibold text-gray-300">${order.shippingCompany}</span></p>
+                        <p class="text-sm text-gray-400">Rastreo: <span class="font-semibold text-green-400">${order.trackingNumber}</span></p>` : '';
+                    return `
+                        <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+                            <div class="flex justify-between items-center">
+                                <p class="text-sm text-gray-400">Pedido: ${order.id}</p>
+                                <span class="text-sm font-semibold px-2 py-1 rounded-full ${order.status === 'Enviado' ? 'bg-blue-500 text-white' : 'bg-yellow-500 text-black'}">${order.status}</span>
+                            </div>
+                            <p class="text-gray-300 mt-2">Fecha: ${new Date(order.orderDate.seconds * 1000).toLocaleDateString()}</p>
+                            <p class="text-lg font-bold text-white mt-1">Total: $${order.total.toFixed(2)} MXN</p>
+                            ${trackingInfo}
+                        </div>`;
+                }).join('');
         }
         
         function renderVendorOrders(orders) {
-            vendorOrdersListContainer.innerHTML = '';
-            if (orders.length === 0) {
-                vendorOrdersListContainer.innerHTML = '<p class="text-center">No has recibido ningún pedido.</p>';
-                return;
-            }
-            orders.forEach(order => {
-                const updateButton = order.status === 'Procesando' ? `<button data-id="${order.id}" class="update-shipping-btn bg-blue-600 text-white py-1 px-3 rounded hover:bg-blue-700">Actualizar Envío</button>` : `<p class="text-sm text-green-400">Enviado</p>`;
-                const orderCard = `
-                    <div class="bg-gray-700 p-4 rounded-lg">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <p class="text-sm text-gray-300">Pedido para: ${order.userEmail}</p>
-                                <p class="font-bold text-white">Total: $${order.total.toFixed(2)} MXN</p>
+            vendorOrdersListContainer.innerHTML = orders.length === 0
+                ? '<p class="text-center">No has recibido ningún pedido.</p>'
+                : orders.map(order => {
+                    const updateButton = order.status === 'Procesando' ? `<button data-id="${order.id}" class="update-shipping-btn bg-blue-600 text-white py-1 px-3 rounded hover:bg-blue-700">Actualizar Envío</button>` : `<p class="text-sm text-green-400">Enviado</p>`;
+                    return `
+                        <div class="bg-gray-700 p-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="text-sm text-gray-300">Pedido para: ${order.userEmail}</p>
+                                    <p class="font-bold text-white">Total: $${order.total.toFixed(2)} MXN</p>
+                                </div>
+                                ${updateButton}
                             </div>
-                            ${updateButton}
-                        </div>
-                    </div>`;
-                 vendorOrdersListContainer.insertAdjacentHTML('beforeend', orderCard);
-            });
+                        </div>`;
+                }).join('');
         }
         
         function updateCartCount() {
@@ -488,10 +420,7 @@
 
         async function handleProductFormSubmit(e) {
             e.preventDefault();
-            if (!currentUser || currentUserProfile?.role !== 'vendor') {
-                showToast('Acción no permitida.', 'error');
-                return;
-            }
+            if (!currentUser || currentUserProfile?.role !== 'vendor') return showToast('Acción no permitida.', 'error');
             const id = document.getElementById('product-id').value;
             const productData = {
                 name: document.getElementById('product-name').value,
@@ -503,11 +432,10 @@
 
             try {
                 if (id) {
-                    const productRef = doc(db, `artifacts/${appId}/public/data/products`, id);
-                    await updateDoc(productRef, productData);
+                    await updateDoc(doc(db, `artifacts/${appId}/public/data/products`, id), productData);
                     showToast('Producto actualizado con éxito.');
                 } else {
-                    await addDoc(productsCollection, productData);
+                    await addDoc(collection(db, `artifacts/${appId}/public/data/products`), productData);
                     showToast('Producto agregado con éxito.');
                 }
                 productForm.reset();
@@ -532,7 +460,7 @@
         }
 
         async function handleDeleteProduct(id) {
-            if (await showConfirm('¿Estás seguro de que quieres eliminar este producto?')) {
+            if (await showConfirm('¿Estás seguro?')) {
                 try {
                     await deleteDoc(doc(db, `artifacts/${appId}/public/data/products`, id));
                     showToast('Producto eliminado.');
@@ -557,25 +485,14 @@
             const role = document.querySelector('input[name="role"]:checked').value;
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-                const userProfileData = {
-                    email: user.email,
+                await setDoc(doc(db, `artifacts/${appId}/public/data/users`, userCredential.user.uid), {
+                    email: userCredential.user.email,
                     role: role
-                };
-                await setDoc(doc(usersCollection, user.uid), userProfileData);
-                
+                });
                 showToast('¡Cuenta creada exitosamente!');
-                
-                // onAuthStateChanged se encargará de la redirección y carga de datos.
             } catch (error) {
-                console.error('Error de registro:', error);
-                let friendlyMessage = 'Ocurrió un error al registrar la cuenta.';
-                if (error.code === 'auth/email-already-in-use') {
-                    friendlyMessage = 'Este correo electrónico ya está en uso.';
-                } else if (error.code === 'auth/weak-password') {
-                    friendlyMessage = 'La contraseña es muy débil (mínimo 6 caracteres).';
-                }
-                showToast(friendlyMessage, 'error');
+                const messages = { 'auth/email-already-in-use': 'Este correo ya está en uso.', 'auth/weak-password': 'La contraseña es muy débil.' };
+                showToast(messages[error.code] || 'Ocurrió un error al registrar.', 'error');
             }
         }
 
@@ -586,14 +503,8 @@
             try {
                 await signInWithEmailAndPassword(auth, email, password);
                 showToast('Inicio de sesión exitoso.');
-                 // onAuthStateChanged se encargará de la redirección y carga de datos.
             } catch (error) {
-                console.error('Error de inicio de sesión:', error);
-                let friendlyMessage = 'Credenciales incorrectas.';
-                if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
-                   friendlyMessage = 'El correo o la contraseña son incorrectos.';
-                }
-                showToast(friendlyMessage, 'error');
+                showToast('Correo o contraseña incorrectos.', 'error');
             }
         }
 
@@ -601,144 +512,55 @@
             signOut(auth);
         }
         
-        async function main() {
-            // Configura el observador de estado de autenticación.
-            onAuthStateChanged(auth, async (user) => {
-                if (unsubscribeVendorProducts) unsubscribeVendorProducts();
-                if (unsubscribeClientOrders) unsubscribeClientOrders();
-                if (unsubscribeVendorOrders) unsubscribeVendorOrders();
-                
-                if (user && !user.isAnonymous) {
-                    currentUser = user;
-                    const userDoc = await getDoc(doc(usersCollection, user.uid));
-                    if (userDoc.exists()) {
-                        currentUserProfile = userDoc.data();
-                        // Carga datos específicos del rol
-                        if (currentUserProfile.role === 'client') {
-                            const q = query(ordersCollection, where("userId", "==", user.uid));
-                            unsubscribeClientOrders = onSnapshot(q, (snapshot) => {
-                                const orders = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
-                                renderUserOrders(orders);
-                            });
-                        }
-                        if (currentUserProfile.role === 'vendor') {
-                            const qProducts = query(productsCollection, where("vendorId", "==", user.uid));
-                            unsubscribeVendorProducts = onSnapshot(qProducts, (snapshot) => {
-                                vendorProducts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                                renderVendorProducts();
-                            });
-                            const qOrders = query(ordersCollection, where("vendorIds", "array-contains", user.uid));
-                            unsubscribeVendorOrders = onSnapshot(qOrders, (snapshot) => {
-                                const orders = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
-                                renderVendorOrders(orders);
-                            });
-                        }
-                        if (['#login', '#register', ''].includes(window.location.hash)) {
-                            window.location.hash = currentUserProfile.role === 'vendor' ? '#vendor-dashboard' : '#home';
-                        }
-                    } else {
-                        currentUserProfile = null;
-                        console.warn("Perfil de usuario aún no creado para:", user.uid, "- esto puede ser normal durante el registro.");
-                    }
-                } else {
-                    currentUser = null;
-                    currentUserProfile = null;
-                    vendorProducts = [];
-                    renderVendorProducts();
-                    if (['#vendor-dashboard', '#orders'].includes(window.location.hash)) {
-                        window.location.hash = '#home';
-                    }
-                }
-                updateNavUI();
-                navigate(window.location.hash || '#home');
-            });
-
-            try {
-                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                 } else if (!auth.currentUser) {
-                    await signInAnonymously(auth);
-                 }
-            } catch (error) {
-                console.error("Fallo el inicio de sesión anónimo/custom:", error);
-                productList.innerHTML = '<p class="col-span-full text-center text-red-400">Error de conexión. Intenta recargar la página.</p>';
-                return;
-            }
-
-            onSnapshot(productsCollection, (snapshot) => {
-                allProducts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                renderAllProducts();
-            }, (error) => {
-                console.error("Error al cargar productos públicos:", error);
-                productList.innerHTML = '<p class="col-span-full text-center text-red-400">Error al cargar productos. Por favor, revisa tus reglas de seguridad de Firestore.</p>';
-            });
-        }
-        
         function initializeAppEventListeners() {
             window.addEventListener('hashchange', () => navigate(window.location.hash));
-
             productList.addEventListener('click', e => {
                 if (e.target.classList.contains('add-to-cart-btn')) addToCart(e.target.dataset.id);
             });
-            
             vendorProductList.addEventListener('click', e => {
                 const id = e.target.dataset.id;
                 if (e.target.classList.contains('edit-btn')) handleEditProduct(id);
                 if (e.target.classList.contains('delete-btn')) handleDeleteProduct(id);
             });
-
             productForm.addEventListener('submit', handleProductFormSubmit);
             document.getElementById('cancel-edit-btn').addEventListener('click', cancelEdit);
             registerForm.addEventListener('submit', handleRegistration);
             loginForm.addEventListener('submit', handleLogin);
             logoutBtn.addEventListener('click', handleLogout);
-
             vendorOrdersListContainer.addEventListener('click', e => {
                 if (e.target.classList.contains('update-shipping-btn')) {
-                    const orderId = e.target.dataset.id;
-                    document.getElementById('shipping-order-id').value = orderId;
+                    document.getElementById('shipping-order-id').value = e.target.dataset.id;
                     shippingModal.classList.remove('hidden');
                 }
             });
-
             document.getElementById('cancel-shipping-update').addEventListener('click', () => {
                 shippingModal.classList.add('hidden');
                 shippingForm.reset();
             });
-
             shippingForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const orderId = document.getElementById('shipping-order-id').value;
-                const shippingCompany = document.getElementById('shipping-company').value;
-                const trackingNumber = document.getElementById('tracking-number').value;
-
+                const orderRef = doc(db, `artifacts/${appId}/public/data/orders`, orderId);
                 try {
-                    const orderRef = doc(db, `artifacts/${appId}/public/data/orders`, orderId);
                     await updateDoc(orderRef, {
                         status: 'Enviado',
-                        shippingCompany: shippingCompany,
-                        trackingNumber: trackingNumber
+                        shippingCompany: document.getElementById('shipping-company').value,
+                        trackingNumber: document.getElementById('tracking-number').value
                     });
                     showToast('Información de envío actualizada.');
                     shippingModal.classList.add('hidden');
                     shippingForm.reset();
                 } catch (error) {
-                    console.error("Error al actualizar envío:", error);
                     showToast('Error al actualizar el envío.', 'error');
                 }
             });
         }
 
-        // FIX: Espera a que el DOM esté completamente cargado antes de inicializar la app y los listeners
         document.addEventListener('DOMContentLoaded', () => {
-            // Asigna las referencias al DOM aquí, cuando es seguro que existen
             pages = {
-                store: document.getElementById('store-page'),
-                cart: document.getElementById('cart-page'),
-                register: document.getElementById('register-page'),
-                login: document.getElementById('login-page'),
-                vendorDashboard: document.getElementById('vendor-dashboard-page'),
-                orders: document.getElementById('orders-page'),
+                store: document.getElementById('store-page'), cart: document.getElementById('cart-page'),
+                register: document.getElementById('register-page'), login: document.getElementById('login-page'),
+                vendorDashboard: document.getElementById('vendor-dashboard-page'), orders: document.getElementById('orders-page'),
             };
             productList = document.getElementById('product-list');
             vendorProductList = document.getElementById('vendor-product-list');
@@ -754,12 +576,79 @@
             shippingModal = document.getElementById('shipping-modal');
             shippingForm = document.getElementById('shipping-form');
 
-            // Ahora inicializa todo lo demás
-            updateCartCount();
-            initializeAppEventListeners();
-            main(); 
+            try {
+                // Asignar appId desde la variable de entorno
+                appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+                const firebaseConfigString = typeof __firebase_config !== 'undefined' ? __firebase_config : '{}';
+                const firebaseConfig = JSON.parse(firebaseConfigString);
+                if (!firebaseConfig.apiKey) throw new Error("Configuración de Firebase inválida o no encontrada.");
+                
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                
+                initializeAppEventListeners();
+                updateCartCount();
+                main();
+            } catch (error) {
+                console.error("Error Crítico de Inicialización:", error.message);
+                document.getElementById('config-error').classList.remove('hidden');
+                return;
+            }
+            
             navigate(window.location.hash || '#home');
         });
+        
+        async function main() {
+            onAuthStateChanged(auth, async (user) => {
+                if (unsubscribeVendorProducts) unsubscribeVendorProducts();
+                if (unsubscribeClientOrders) unsubscribeClientOrders();
+                if (unsubscribeVendorOrders) unsubscribeVendorOrders();
+                
+                if (user && !user.isAnonymous) {
+                    currentUser = user;
+                    const userDoc = await getDoc(doc(db, `artifacts/${appId}/public/data/users`, user.uid));
+                    currentUserProfile = userDoc.exists() ? userDoc.data() : null;
+                    
+                    if (currentUserProfile?.role === 'client') {
+                        const q = query(collection(db, `artifacts/${appId}/public/data/orders`), where("userId", "==", user.uid));
+                        unsubscribeClientOrders = onSnapshot(q, (snapshot) => renderUserOrders(snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}))));
+                    }
+                    if (currentUserProfile?.role === 'vendor') {
+                        const qp = query(collection(db, `artifacts/${appId}/public/data/products`), where("vendorId", "==", user.uid));
+                        unsubscribeVendorProducts = onSnapshot(qp, (snapshot) => renderVendorProducts(vendorProducts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))));
+                        const qo = query(collection(db, `artifacts/${appId}/public/data/orders`), where("vendorIds", "array-contains", user.uid));
+                        unsubscribeVendorOrders = onSnapshot(qo, (snapshot) => renderVendorOrders(snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}))));
+                    }
+                    if (['#login', '#register', ''].includes(window.location.hash)) {
+                        window.location.hash = currentUserProfile?.role === 'vendor' ? '#vendor-dashboard' : '#home';
+                    }
+                } else {
+                    currentUser = null; currentUserProfile = null;
+                    vendorProducts = []; renderVendorProducts();
+                    if (['#vendor-dashboard', '#orders'].includes(window.location.hash)) window.location.hash = '#home';
+                }
+                updateNavUI();
+                navigate(window.location.hash || '#home');
+            });
+
+            try {
+                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) await signInWithCustomToken(auth, __initial_auth_token);
+                 else if (!auth.currentUser) await signInAnonymously(auth);
+            } catch (error) {
+                console.error("Fallo el inicio de sesión anónimo/custom:", error);
+                productList.innerHTML = '<p class="col-span-full text-center text-red-400">Error de conexión. Intenta recargar la página.</p>';
+            }
+
+            onSnapshot(collection(db, `artifacts/${appId}/public/data/products`), (snapshot) => {
+                allProducts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderAllProducts();
+            }, (error) => {
+                console.error("Error al cargar productos públicos:", error);
+                productList.innerHTML = '<p class="col-span-full text-center text-red-400">Error al cargar productos. Revisa tus reglas de seguridad.</p>';
+            });
+        }
         
         function showToast(message, type = 'success') {
             const toast = document.getElementById('toast-notification');
@@ -784,15 +673,8 @@
                     </div>
                 `;
                 document.body.appendChild(confirmModal);
-
-                document.getElementById('confirm-yes').onclick = () => {
-                    document.body.removeChild(confirmModal);
-                    resolve(true);
-                };
-                document.getElementById('confirm-no').onclick = () => {
-                    document.body.removeChild(confirmModal);
-                    resolve(false);
-                };
+                document.getElementById('confirm-yes').onclick = () => { resolve(true); document.body.removeChild(confirmModal); };
+                document.getElementById('confirm-no').onclick = () => { resolve(false); document.body.removeChild(confirmModal); };
             });
         }
 
